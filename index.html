@@ -3,589 +3,987 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>동방예술관 소장예물 소개</title>
+    <title>동방예술관 소장유물 소개</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
-        .header { position: sticky; top: 0; background: #333; padding: 10px; text-align: center; display: flex; justify-content: center; align-items: center; }
-        .header a { color: white; text-decoration: none; margin: 0 15px; font-size: 1.2em; }
-        .header a:hover { text-decoration: underline; }
-        .header .title { color: white; font-size: 1.5em; margin: 0 15px; }
-        .category-menu { display: flex; justify-content: center; background: #ddd; padding: 10px; }
-        .category-menu div { margin: 0 10px; padding: 5px 10px; background: #bbb; cursor: pointer; }
-        .category-menu div:hover { background: #999; }
-        .category { margin: 20px; padding: 20px; background: white; border: 1px solid #ccc; min-height: 600px; }
-        .video-section { margin-bottom: 20px; }
-        .video-section video { width: 30%; margin: 1%; }
-        .image-section { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
-        .image-section img { width: 100%; height: 100px; object-fit: cover; }
-        .nav-buttons { text-align: center; margin: 10px 0; }
-        .nav-buttons button { padding: 5px 10px; margin: 0 5px; }
-        /* 페이징 숨김 클래스 */
-        .hidden { display: none !important; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f1e8, #e8ddd0);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #8B4513, #A0522D);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .title-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .title {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-right: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .home-icon {
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .home-icon:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-item {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 2px solid transparent;
+            white-space: nowrap;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .nav-item.active {
+            background: white;
+            color: #8B4513;
+            border-color: #A0522D;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .main-page {
+            text-align: center;
+        }
+
+        .intro-section {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            border-left: 5px solid #8B4513;
+        }
+
+        .intro-section h2 {
+            color: #8B4513;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .intro-section p {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .welcome-content {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-top: 6px solid #8B4513;
+        }
+
+        .welcome-content h3 {
+            color: #8B4513;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .welcome-content p {
+            font-size: 1.3rem;
+            line-height: 2;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .category-page {
+            display: none;
+        }
+
+        .category-page.active {
+            display: block;
+        }
+
+        .category-title {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .category-title h2 {
+            color: #8B4513;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .video-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .video-section h3 {
+            color: #8B4513;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .video-placeholder {
+            background: #f0f0f0;
+            height: 200px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ccc;
+            color: #666;
+            font-size: 1.1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-placeholder::before {
+            content: '▶';
+            position: absolute;
+            font-size: 3rem;
+            color: #8B4513;
+            opacity: 0.3;
+        }
+
+        .image-gallery {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .gallery-title {
+            color: #8B4513;
+            font-size: 1.6rem;
+            font-weight: bold;
+        }
+
+        .gallery-pagination {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .page-btn {
+            padding: 10px 20px;
+            background: #8B4513;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            min-width: 80px;
+        }
+
+        .page-btn:hover {
+            background: #A0522D;
+            transform: translateY(-2px);
+        }
+
+        .page-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .page-info {
+            color: #666;
+            font-weight: bold;
+            padding: 0 15px;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .image-placeholder {
+            background: #f8f8f8;
+            height: 200px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #e0e0e0;
+            color: #666;
+            font-size: 0.9rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-placeholder:hover {
+            border-color: #8B4513;
+            color: #8B4513;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        .image-placeholder::before {
+            content: '🏺';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            opacity: 0.3;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #8B4513;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .back-to-top:hover {
+            background: #A0522D;
+            transform: translateY(-3px);
+        }
+
+        .footer {
+            background: linear-gradient(90deg, #8B4513, #A0522D);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .footer-info {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                padding: 25px 15px;
+            }
+
+            .footer-info {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+
+            .footer-copyright {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .nav-menu {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-item {
+                font-size: 0.8rem;
+                padding: 8px 12px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 1.6rem;
+            }
+
+            .header-content {
+                padding: 0 15px;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+
+            .intro-section, .welcome-content {
+                padding: 25px;
+            }
+
+            .nav-menu {
+                gap: 3px;
+            }
+
+            .nav-item {
+                font-size: 0.7rem;
+                padding: 6px 10px;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .video-placeholder {
+                height: 150px;
+            }
+
+            .image-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .image-placeholder {
+                height: 150px;
+                font-size: 0.8rem;
+            }
+
+            .gallery-header {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .gallery-pagination {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1.4rem;
+            }
+
+            .home-icon {
+                font-size: 1.6rem;
+                padding: 8px;
+            }
+
+            .nav-item {
+                font-size: 0.6rem;
+                padding: 5px 8px;
+            }
+
+            .image-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+                min-width: 70px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <span class="title">동방예술관 소장예물 소개</span>
-        <a href="#home">홈</a>
-    </div>
-    <div class="category-menu" id="home">
-        <div onclick="scrollToCategory(1)">1번</div>
-        <div onclick="scrollToCategory(2)">2번</div>
-        <div onclick="scrollToCategory(3)">3번</div>
-        <div onclick="scrollToCategory(4)">4번</div>
-        <div onclick="scrollToCategory(5)">5번</div>
-        <div onclick="scrollToCategory(6)">6번</div>
-        <div onclick="scrollToCategory(7)">7번</div>
-        <div onclick="scrollToCategory(8)">8번</div>
-        <div onclick="scrollToCategory(9)">9번</div>
-    </div>
+    <header class="header">
+        <div class="header-content">
+            <div class="title-section">
+                <h1 class="title">동방예술관 소장유물 소개</h1>
+                <div class="home-icon" onclick="showMainPage()" title="홈으로">🏠</div>
+            </div>
+            <nav class="nav-menu">
+                <div class="nav-item" onclick="showCategory('goryeo-joseon')">1. 고려청자·조선백자</div>
+                <div class="nav-item" onclick="showCategory('buddha')">2. 불상</div>
+                <div class="nav-item" onclick="showCategory('hongshan-relics')">3. 홍산문화 관련</div>
+                <div class="nav-item" onclick="showCategory('arhat')">4. 18나한</div>
+                <div class="nav-item" onclick="showCategory('woodcraft')">5. 목기</div>
+                <div class="nav-item" onclick="showCategory('metal')">6. 청동·금동·은제</div>
+                <div class="nav-item" onclick="showCategory('pottery')">7. 토기·도기</div>
+                <div class="nav-item" onclick="showCategory('hongshan-text')">8. 홍산문화 문자옥기</div>
+                <div class="nav-item" onclick="showCategory('ceramic-brick')">9. 도기벽돌</div>
+            </nav>
+        </div>
+    </header>
 
-    <div class="category" id="category-1" data-images="22">
-        <h2>1번 청동,금동,은제</h2>
-        <div class="video-section">
-            <iframe src="https://1drv.ms/v/c/0cd5a9f4810df8c8/EalmnUQeoHJGk0kUOTwn5fcBT_H6V7czmm8S7uQIazWKTw?e=3ohUdK" width="320" height="180" frameborder="0" allowfullscreen></iframe>
-            <iframe src="https://1drv.ms/v/c/0cd5a9f4810df8c8/Ed2pr-ac-S9AjWpYrCW6vucB422GVTssOoJPxPI9mJ_0pQ?e=yTvntx" width="320" height="180" frameborder="0" allowfullscreen></iframe>
-            <iframe src="https://1drv.ms/v/c/0cd5a9f4810df8c8/EcQzKMdUdoZMgUI4edU801MBM1Uuq6UA5cr-6ag8U3no6Q?e=9mdlDx" width="320" height="180" frameborder="0" allowfullscreen></iframe>
-        </div>
-        <div class="image-section" id="image-section-1">
-            <img src="https://onedrive.live.com/?username=hjyeagle%40naver%2Ecom&id=%2Fpersonal%2F0cd5a9f4810df8c8%2FDocuments%2Fdongbang%2F%EC%B2%AD%EB%8F%99%2E%EA%B8%88%EB%8F%99%2E%EC%9D%80%EC%A0%9C%2FIMG%5F20240517%5F111228%2Ejpg&parent=%2Fpersonal%2F0cd5a9f4810df8c8%2FDocuments%2Fdongbang%2F%EC%B2%AD%EB%8F%99%2E%EA%B8%88%EB%8F%99%2E%EC%9D%80%EC%A0%9C" width="100" height="100" alt="半跏思维像">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/EbXzltqdOm9Aufm1Nc0oq1ABh6Lyfpfv9bVjkkhz87YiOw?e=3ZjriY" width="100" height="100" alt="金铜罗汉坐像">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/EYYboqLV-z9Eo21kCuD1MQIB_giUoRF3vkmGngtborJLSg?e=5qX4GL" width="100" height="100" alt="金铜三尊佛立像">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/ERiS_juGIotIl47t0RyX7JQBl4zDzQ2erFi1mPluKxU1Rw?e=0e9pzQ" width="100" height="100" alt="金铜弥勒佛像">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/EYP61peP12VMmn2bqLg68zABZSLEaSL99nznq2_J2XJJGw?e=GPtaZF" width="100" height="100" alt="青铜金银入丝双狮子蜡烛台">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/EcM0SFEOxdJEnVB6H2r8Ro0BbhIq9jsXN0H-JNNt2_2fjA?e=yUwBLO" width="100" height="100" alt="金铜水月观音菩萨">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/EaFhgbKI2vhIuS5Ux7zDfrABl3NyEI-MRxdBx9Zux19vzg?e=rumbTn" width="100" height="100" alt="金铜菩萨坐像">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/ETQT2O4UFLNPtpIm_VzzK18B9rAl7mHiXmRAqZxcHU1WcQ?e=XGn6AU" width="100" height="100" alt="金铜如来坐像">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/EfiF6uyIP1lOkpI-Ctf8NBoBMsTHY747eXSR16lWeIuYTg?e=DG92dl" width="100" height="100" alt="金铜弥勒菩萨半跏思维像">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/EZgGNRrOPg5Ho1B6jHUyQ6oBX5HE9AkXAby50pdL_yPhMg?e=fZiQSf" width="100" height="100" alt="金铜观音菩萨立像">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/Ec7vjgTRnZBAkxz8L3VE2OgB66MnnUcDuGMTAGqBbQ5JPQ?e=LbbevO" width="100" height="100" alt="金铜捨利盒">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/EVxMhpK38eVFjkQAM_Ejeu4B5UAfs-S_TersNJpNDj2Hng?e=BJuSUt" width="100" height="100" alt="金铜弥勒菩萨半跏思维像">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/EcA1u5UGPe1OvVN9HDc7pfwB3vNeINeYXpjTtetHiztglQ?e=PgMW8F" width="100" height="100" alt="金铜如来坐像">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/ERs4yDYg6ZlKltfga0sPG7wBnhdlLqqT7IMCq29aFuvrgg?e=TkfEGA" width="100" height="100" alt="人物四角铜镜">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/EUDwhQM2mDJAofsDAANx3ZgBG3JCgax0C1HMIlasxMiMXQ?e=PZOSJ7" width="100" height="100" alt="金铜三尊佛盒">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/EcShI7msP-1OoR0rPFp8zaYBdw7j-kjsyMBuq0MoEYMMOg?e=fcdtk5" width="100" height="100" alt="金铜捨利塔">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/EQN2sgogZhxJgMV0KDut2NMB-INhFW-ReuL90t9RkfnvRw?e=473FLq" width="100" height="100" alt="金铜佛龕">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/EWXczmiQKMlFvEM_1brIwUIB2hu4vqCYkJNMXM3f1GkynA?e=OZo55Q" width="100" height="100" alt="捨利塔">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/EfysSKf4OwpFgiozacB3x50Bp2RiFvjSostrHRVUa2nXqw?e=NQwyco" width="100" height="100" alt="青铜银入丝莲花纹净瓶">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/EcD_-J_poDtKtTNi3O-u-yYBGpAHQT9wo3OFKaDMibKbWA?e=Xibc1m" width="100" height="100" alt="青铜银入丝蒲柳水禽纹香炉">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/ETfpZv_gYR1BiWAFqBBWvokBB_DFysmHWnFxTGL1uv6Z4w?e=5ae9tw" width="100" height="100" alt="青铜九层塔">
-            <img src="https://1drv.ms/i/c/0cd5a9f4810df8c8/ETXIJQLhzsxNu_sH2MbO2zIByofglQIPlto8lQ918yHhVA?e=BMusMi" width="100" height="100" alt="金铜龙头">
-        </div>
-        <div class="nav-buttons">
-            <button onclick="scrollToCategory(1, 'before')">before</button>
-            <button onclick="scrollToCategory(1, 'after')">after</button>
-            <button onclick="scrollToCategory(0)">홈으로 복귀</button>
-        </div>
-    </div>
+    <div class="container">
+        <!-- 메인 페이지 -->
+        <div id="main-page" class="main-page">
+            <div class="intro-section">
+                <h2>🏛️ 동방예술관 건립 프로젝트</h2>
+                <p><strong>중국 대련에서 운영되던 고려박물관의 3,000여 점을 승계하여</strong></p>
+                <p><strong>'동방예술관'</strong>이라는 새로운 이름으로 건립하는 의미있는 프로젝트입니다.</p>
+                <p>📖 <strong>목표:</strong> 소장유물 검증비용, 도록 제작비용 및 동방예술관 건립기금 마련을 위한 크라우드펀딩</p>
+                <p>🤝 <strong>협력:</strong> 인플루언서, 순환전시 스폰서 기업, 유물감정기관과의 연계</p>
+                <p>🏺 <strong>소장품:</strong> 한국고대유물로 추정되는 동방예술관 소장예물 (9개 카테고리)</p>
+            </div>
 
-    <div class="category" id="category-2">
-        <h2>2번 카테고리</h2>
-        <div class="video-section">
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
+            <div class="welcome-content">
+                <h3>🏺 한국고대유물로 추정되는 동방예술관 소장예물</h3>
+                <p>상단 메뉴를 클릭하시면 각 카테고리별 소장예물을 확인하실 수 있습니다.</p>
+                <p>각 카테고리마다 관련 동영상 3편과 소장예물 이미지들을 제공합니다.</p>
+                <p>현재 소장예물들은 검증 절차를 진행 중이며, 이번 크라우드펀딩을 통해</p>
+                <p>체계적인 검증과 전문적인 도록 제작을 추진하고자 합니다.</p>
+            </div>
         </div>
-        <div class="image-section" id="image-section-2">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 1">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 2">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 3">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 4">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 5">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 6">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 7">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 8">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 9">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 10">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 11">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 12">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 13">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 14">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 15">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 16">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 17">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 18">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 19">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 20">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 21">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 22">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 23">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 24">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 25">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 26">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 27">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 28">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 29">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 30">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 31">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 32">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 33">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 34">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 35">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 36">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 37">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 38">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 39">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 40">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 41">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 42">
-        </div>
-        <div class="nav-buttons">
-            <button onclick="scrollToCategory(2, 'before')">before</button>
-            <button onclick="scrollToCategory(2, 'after')">after</button>
-            <button onclick="scrollToCategory(0)">홈으로 복귀</button>
-        </div>
-    </div>
 
-    <div class="category" id="category-3">
-        <h2>3번 카테고리</h2>
-        <div class="video-section">
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
+        <!-- 1. 고려청자·조선백자 -->
+        <div id="goryeo-joseon-page" class="category-page">
+            <div class="category-title">
+                <h2>🏺 고려청자·조선백자</h2>
+            </div>
+            
+            <div class="video-section">
+                <h3>관련 동영상</h3>
+                <div class="video-grid">
+                    <div class="video-placeholder">
+                        고려청자 소개<br>(동영상 링크)
+                    </div>
+                    <div class="video-placeholder">
+                        조선백자 소개<br>(동영상 링크)
+                    </div>
+                    <div class="video-placeholder">
+                        제작기법 설명<br>(동영상 링크)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="image-gallery">
+                <div class="gallery-header">
+                    <h3 class="gallery-title">고려청자·조선백자 소장예물</h3>
+                    <div class="gallery-pagination">
+                        <button class="page-btn" onclick="prevPage('goryeo-joseon')" id="goryeo-joseon-prev">이전</button>
+                        <div class="page-info" id="goryeo-joseon-info">1 / 3</div>
+                        <button class="page-btn" onclick="nextPage('goryeo-joseon')" id="goryeo-joseon-next">다음</button>
+                    </div>
+                </div>
+                <div class="image-grid" id="goryeo-joseon-gallery">
+                    <!-- 이미지들이 JavaScript로 동적 생성됩니다 -->
+                </div>
+            </div>
         </div>
-        <div class="image-section" id="image-section-3">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 1">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 2">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 3">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 4">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 5">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 6">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 7">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 8">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 9">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 10">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 11">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 12">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 13">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 14">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 15">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 16">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 17">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 18">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 19">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 20">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 21">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 22">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 23">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 24">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 25">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 26">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 27">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 28">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 29">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 30">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 31">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 32">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 33">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 34">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 35">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 36">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 37">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 38">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 39">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 40">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 41">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 42">
-        </div>
-        <div class="nav-buttons">
-            <button onclick="scrollToCategory(3, 'before')">before</button>
-            <button onclick="scrollToCategory(3, 'after')">after</button>
-            <button onclick="scrollToCategory(0)">홈으로 복귀</button>
-        </div>
-    </div>
 
-    <div class="category" id="category-4">
-        <h2>4번 카테고리</h2>
-        <div class="video-section">
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
+        <!-- 2. 불상 -->
+        <div id="buddha-page" class="category-page">
+            <div class="category-title">
+                <h2>🙏 불상</h2>
+            </div>
+            
+            <div class="video-section">
+                <h3>관련 동영상</h3>
+                <div class="video-grid">
+                    <div class="video-placeholder">
+                        불상 조각기법<br>(동영상 링크)
+                    </div>
+                    <div class="video-placeholder">
+                        시대별 특징<br>(동영상 링크)
+                    </div>
+                    <div class="video-placeholder">
+                        보존 상태<br>(동영상 링크)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="image-gallery">
+                <div class="gallery-header">
+                    <h3 class="gallery-title">불상 소장예물</h3>
+                    <div class="gallery-pagination">
+                        <button class="page-btn" onclick="prevPage('buddha')" id="buddha-prev">이전</button>
+                        <div class="page-info" id="buddha-info">1 / 3</div>
+                        <button class="page-btn" onclick="nextPage('buddha')" id="buddha-next">다음</button>
+                    </div>
+                </div>
+                <div class="image-grid" id="buddha-gallery"></div>
+            </div>
         </div>
-        <div class="image-section" id="image-section-4">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 1">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 2">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 3">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 4">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 5">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 6">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 7">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 8">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 9">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 10">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 11">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 12">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 13">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 14">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 15">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 16">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 17">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 18">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 19">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 20">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 21">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 22">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 23">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 24">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 25">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 26">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 27">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 28">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 29">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 30">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 31">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 32">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 33">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 34">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 35">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 36">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 37">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 38">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 39">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 40">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 41">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 42">
-        </div>
-        <div class="nav-buttons">
-            <button onclick="scrollToCategory(4, 'before')">before</button>
-            <button onclick="scrollToCategory(4, 'after')">after</button>
-            <button onclick="scrollToCategory(0)">홈으로 복귀</button>
-        </div>
-    </div>
 
-    <div class="category" id="category-5">
-        <h2>5번 카테고리</h2>
-        <div class="video-section">
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
+        <!-- 3. 홍산문화 관련 -->
+        <div id="hongshan-relics-page" class="category-page">
+            <div class="category-title">
+                <h2>🗿 홍산문화 관련 (옥기, 도자기, 신상, 운석조각, 남근조각품 등)</h2>
+            </div>
+            
+            <div class="video-section">
+                <h3>관련 동영상</h3>
+                <div class="video-grid">
+                    <div class="video-placeholder">
+                        홍산문화 개요<br>(동영상 링크)
+                    </div>
+                    <div class="video-placeholder">
+                        옥기 제작기법<br>(동영상 링크)
+                    </div>
+                    <div class="video-placeholder">
+                        문화적 의미<br>(동영상 링크)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="image-gallery">
+                <div class="gallery-header">
+                    <h3 class="gallery-title">홍산문화 관련 소장예물</h3>
+                    <div class="gallery-pagination">
+                        <button class="page-btn" onclick="prevPage('hongshan-relics')" id="hongshan-relics-prev">이전</button>
+                        <div class="page-info" id="hongshan-relics-info">1 / 3</div>
+                        <button class="page-btn" onclick="nextPage('hongshan-relics')" id="hongshan-relics-next">다음</button>
+                    </div>
+                </div>
+                <div class="image-grid" id="hongshan-relics-gallery"></div>
+            </div>
         </div>
-        <div class="image-section" id="image-section-5">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 1">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 2">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 3">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 4">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 5">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 6">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 7">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 8">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 9">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 10">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 11">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 12">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 13">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 14">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 15">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 16">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 17">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 18">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 19">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 20">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 21">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 22">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 23">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 24">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 25">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 26">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 27">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 28">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 29">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 30">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 31">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 32">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 33">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 34">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 35">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 36">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 37">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 38">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 39">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 40">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 41">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 42">
-        </div>
-        <div class="nav-buttons">
-            <button onclick="scrollToCategory(5, 'before')">before</button>
-            <button onclick="scrollToCategory(5, 'after')">after</button>
-            <button onclick="scrollToCategory(0)">홈으로 복귀</button>
-        </div>
-    </div>
 
-    <div class="category" id="category-6">
-        <h2>6번 카테고리</h2>
-        <div class="video-section">
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
+        <!-- 4. 18나한 -->
+        <div id="arhat-page" class="category-page">
+            <div class="category-title">
+                <h2>🧘 18나한</h2>
+            </div>
+            
+            <div class="video-section">
+                <h3>관련 동영상</h3>
+                <div class="video-grid">
+                    <div class="video-placeholder">
+                        18나한의 의미<br>(동영상 링크)
+                    </div>
+                    <div class="video-placeholder">
+                        조각 양식<br>(동영상 링크)
+                    </div>
+                    <div class="video-placeholder">
+                        개별 나한 소개<br>(동영상 링크)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="image-gallery">
+                <div class="gallery-header">
+                    <h3 class="gallery-title">18나한 소장예물</h3>
+                    <div class="gallery-pagination">
+                        <button class="page-btn" onclick="prevPage('arhat')" id="arhat-prev">이전</button>
+                        <div class="page-info" id="arhat-info">1 / 3</div>
+                        <button class="page-btn" onclick="nextPage('arhat')" id="arhat-next">다음</button>
+                    </div>
+                </div>
+                <div class="image-grid" id="arhat-gallery"></div>
+            </div>
         </div>
-        <div class="image-section" id="image-section-6">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 1">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 2">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 3">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 4">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 5">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 6">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 7">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 8">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 9">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 10">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 11">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 12">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 13">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 14">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 15">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 16">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 17">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 18">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 19">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 20">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 21">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 22">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 23">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 24">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 25">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 26">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 27">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 28">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 29">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 30">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 31">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 32">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 33">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 34">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 35">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 36">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 37">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 38">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 39">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 40">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 41">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 42">
-        </div>
-        <div class="nav-buttons">
-            <button onclick="scrollToCategory(6, 'before')">before</button>
-            <button onclick="scrollToCategory(6, 'after')">after</button>
-            <button onclick="scrollToCategory(0)">홈으로 복귀</button>
-        </div>
-    </div>
 
-    <div class="category" id="category-7">
-        <h2>7번 카테고리</h2>
-        <div class="video-section">
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
+        <!-- 5. 목기 -->
+        <div id="woodcraft-page" class="category-page">
+            <div class="category-title">
+                <h2>🪵 목기</h2>
+            </div>
+            
+            <div class="video-section">
+                <h3>관련 동영상</h3>
+                <div class="video-grid">
+                    <div class="video-placeholder">
+                        전통 목공예<br>(동영상 링크)
+                    </div>
+                    <div class="video-placeholder">
+                        목재 및 기법<br>(동영상 링크)
+                    </div>
+                    <div class="video-placeholder">
+                        용도별 분류<br>(동영상 링크)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="image-gallery">
+                <div class="gallery-header">
+                    <h3 class="gallery-title">목기 소장예물</h3>
+                    <div class="gallery-pagination">
+                        <button class="page-btn" onclick="prevPage('woodcraft')" id="woodcraft-prev">이전</button>
+                        <div class="page-info" id="woodcraft-info">1 / 3</div>
+                        <button class="page-btn" onclick="nextPage('woodcraft')" id="woodcraft-next">다음</button>
+                    </div>
+                </div>
+                <div class="image-grid" id="woodcraft-gallery"></div>
+            </div>
         </div>
-        <div class="image-section" id="image-section-7">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 1">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 2">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 3">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 4">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 5">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 6">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 7">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 8">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 9">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 10">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 11">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 12">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 13">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 14">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 15">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 16">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 17">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 18">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 19">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 20">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 21">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 22">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 23">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 24">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 25">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 26">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 27">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 28">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 29">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 30">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 31">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 32">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 33">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 34">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 35">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 36">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 37">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 38">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 39">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 40">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 41">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 42">
+
+        <!-- 6. 청동·금동·은제 -->
+        <div id="metal-page" class="category-page">
+            <div class="category-title">
+                <h2>⚱️ 청동·금동·은제</h2>
+            </div>
+            
+            <div class="video-section">
+                <h3>관련 동영상</h3>
+                <div class="video-grid">
+                    <div class="video-placeholder">
+                        금속공예 기법<br>(동영상 링크)
+                    </div>
+                    <div class="video-placeholder">
+                        재료별 특성<br>(동영상 링크)
+                    </div>
+                    <div class="video-placeholder">
+                        문양과 장식<br>(동영상 링크)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="image-gallery">
+                <div class="gallery-header">
+                    <h3 class="gallery-title">청동·금동·은제 소장예물</h3>
+                    <div class="gallery-pagination">
+                        <button class="page-btn" onclick="prevPage('metal')" id="metal-prev">이전</button>
+                        <div class="page-info" id="metal-info">1 / 3</div>
+                        <button class="page-btn" onclick="nextPage('metal')" id="metal-next">다음</button>
+                    </div>
+                </div>
+                <div class="image-grid" id="metal-gallery"></div>
+            </div>
         </div>
-        <div class="nav-buttons">
-            <button onclick="scrollToCategory(7, 'before')">before</button>
-            <button onclick="scrollToCategory(7, 'after')">after</button>
-            <button onclick="scrollToCategory(0)">홈으로 복귀</button>
+
+        <!-- 7. 토기·도기 -->
+        <div id="pottery-page" class="category-page">
+            <div class="category-title">
+                <h2>🏺 토기·도기</h2>
+            </div>
+            
+            <div class="video-section">
+                <h3>관련 동영상</h3>
+                <div class="video-grid">
+                    <div class="video-placeholder">
+                        토기 제작과정<br>(동영상 링크)
+                    </div>
+                    <div class="video-placeholder">
+                        도기 발달사<br>(동영상 링크)
+                    </div>
+                    <div class="video-placeholder">
+                        문양과 형태<br>(동영상 링크)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="image-gallery">
+                <div class="gallery-header">
+                    <h3 class="gallery-title">토기·도기 소장예물</h3>
+                    <div class="gallery-pagination">
+                        <button class="page-btn" onclick="prevPage('pottery')" id="pottery-prev">이전</button>
+                        <div class="page-info" id="pottery-info">1 / 3</div>
+                        <button class="page-btn" onclick="nextPage('pottery')" id="pottery-next">다음</button>
+                    </div>
+                </div>
+                <div class="image-grid" id="pottery-gallery"></div>
+            </div>
+        </div>
+
+        <!-- 8. 홍산문화 문자옥기 -->
+        <div id="hongshan-text-page" class="category-page">
+            <div class="category-title">
+                <h2>📜 홍산문화 문자옥기</h2>
+            </div>
+            
+            <div class="video-section">
+                <h3>관련 동영상</h3>
+                <div class="video-grid">
+                    <div class="video-placeholder">
+                        문자옥기 개념<br>(동영상 링크)
+                    </div>
+                    <div class="video-placeholder">
+                        문자 해석<br>(동영상 링크)
+                    </div>
+                    <div class="video-placeholder">
+                        역사적 의미<br>(동영상 링크)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="image-gallery">
+                <div class="gallery-header">
+                    <h3 class="gallery-title">홍산문화 문자옥기 소장예물</h3>
+                    <div class="gallery-pagination">
+                        <button class="page-btn" onclick="prevPage('hongshan-text')" id="hongshan-text-prev">이전</button>
+                        <div class="page-info" id="hongshan-text-info">1 / 3</div>
+                        <button class="page-btn" onclick="nextPage('hongshan-text')" id="hongshan-text-next">다음</button>
+                    </div>
+                </div>
+                <div class="image-grid" id="hongshan-text-gallery"></div>
+            </div>
+        </div>
+
+        <!-- 9. 도기벽돌 -->
+        <div id="ceramic-brick-page" class="category-page">
+            <div class="category-title">
+                <h2>🧱 도기벽돌</h2>
+            </div>
+            
+            <div class="video-section">
+                <h3>관련 동영상</h3>
+                <div class="video-grid">
+                    <div class="video-placeholder">
+                        도기벽돌 제작<br>(동영상 링크)
+                    </div>
+                    <div class="video-placeholder">
+                        건축에서의 활용<br>(동영상 링크)
+                    </div>
+                    <div class="video-placeholder">
+                        문양과 기법<br>(동영상 링크)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="image-gallery">
+                <div class="gallery-header">
+                    <h3 class="gallery-title">도기벽돌 소장예물</h3>
+                    <div class="gallery-pagination">
+                        <button class="page-btn" onclick="prevPage('ceramic-brick')" id="ceramic-brick-prev">이전</button>
+                        <div class="page-info" id="ceramic-brick-info">1 / 3</div>
+                        <button class="page-btn" onclick="nextPage('ceramic-brick')" id="ceramic-brick-next">다음</button>
+                    </div>
+                </div>
+                <div class="image-grid" id="ceramic-brick-gallery"></div>
+            </div>
         </div>
     </div>
 
-    <div class="category" id="category-8">
-        <h2>8번 카테고리</h2>
-        <div class="video-section">
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-info">
+                <strong>동방예술관</strong> | 황희면 관장 | <a href="mailto:hjyeagle@naver.com">hjyeagle@naver.com</a>
+            </div>
+            <div class="footer-copyright">
+                Copyright(c) 2025 동방예술관 All rights reserved
+            </div>
         </div>
-        <div class="image-section" id="image-section-8">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 1">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 2">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 3">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 4">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 5">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 6">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 7">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 8">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 9">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 10">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 11">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 12">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 13">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 14">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 15">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 16">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 17">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 18">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 19">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 20">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 21">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 22">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 23">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 24">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 25">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 26">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 27">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 28">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 29">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 30">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 31">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 32">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 33">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 34">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 35">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 36">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 37">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 38">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 39">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 40">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 41">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 42">
-        </div>
-        <div class="nav-buttons">
-            <button onclick="scrollToCategory(8, 'before')">before</button>
-            <button onclick="scrollToCategory(8, 'after')">after</button>
-            <button onclick="scrollToCategory(0)">홈으로 복귀</button>
-        </div>
-    </div>
+    </footer>
 
-    <div class="category" id="category-9">
-        <h2>9번 카테고리</h2>
-        <div class="video-section">
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
-            <video controls><source src="https://via.placeholder.com/320x180.mp4" type="video/mp4"></video>
-        </div>
-        <div class="image-section" id="image-section-9">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 1">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 2">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 3">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 4">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 5">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 6">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 7">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 8">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 9">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 10">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 11">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 12">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 13">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 14">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 15">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 16">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 17">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 18">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 19">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 20">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 21">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 22">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 23">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 24">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 25">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 26">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 27">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 28">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 29">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 30">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 31">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 32">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 33">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 34">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 35">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 36">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 37">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 38">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 39">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 40">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 41">
-            <img src="https://via.placeholder.com/100x100" alt="이미지 42">
-        </div>
-        <div class="nav-buttons">
-            <button onclick="scrollToCategory(9, 'before')">before</button>
-            <button onclick="scrollToCategory(9, 'after')">after</button>
-            <button onclick="scrollToCategory(0)">홈으로 복귀</button>
-        </div>
-    </div>
+    <button class="back-to-top" onclick="scrollToTop()" title="맨 위로">↑</button>
 
     <script>
-        function scrollToCategory(num, direction) {
-            if (num === 0) {
-                document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
-                return;
-            }
-            const category = document.getElementById('category-' + num);
-            if (!category) return;
+        // 현재 페이지 상태 관리
+        const pageState = {
+            'goryeo-joseon': { current: 1, total: 3 },
+            'buddha': { current: 1, total: 3 },
+            'hongshan-relics': { current: 1, total: 3 },
+            'arhat': { current: 1, total: 3 },
+            'woodcraft': { current: 1, total: 3 },
+            'metal': { current: 1, total: 3 },
+            'pottery': { current: 1, total: 3 },
+            'hongshan-text': { current: 1, total: 3 },
+            'ceramic-brick': { current: 1, total: 3 }
+        };
 
-            const imageSection = document.getElementById('image-section-' + num);
-            const images = imageSection.getElementsByTagName('img');
-            const totalImages = images.length;
-            let currentPage = parseInt(category.getAttribute('data-current-page') || 1);
-            const totalPages = Math.ceil(totalImages / 20);
+        // 현재 활성 카테고리 추적
+        let currentCategory = null;
 
-            if (direction) {
-                if (direction === 'after' && currentPage < totalPages) currentPage++;
-                else if (direction === 'before' && currentPage > 1) currentPage--;
-            }
-
-            category.setAttribute('data-current-page', currentPage);
-
-            for (let i = 0; i < totalImages; i++) {
-                images[i].classList.add('hidden');
-                const page = Math.floor(i / 20) + 1;
-                if (page === currentPage) {
-                    images[i].classList.remove('hidden');
-                }
-            }
-
-            category.scrollIntoView({ behavior: 'smooth' });
+        // 메인 페이지 표시
+        function showMainPage() {
+            // 모든 카테고리 페이지 숨기기
+            document.querySelectorAll('.category-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            // 메인 페이지 표시
+            document.getElementById('main-page').style.display = 'block';
+            
+            // 네비게이션 메뉴 활성화 해제
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            currentCategory = null;
+            scrollToTop();
         }
 
-        // 초기 로드 시 1페이지 표시
-        document.querySelectorAll('.category').forEach(cat => {
-            const imageSection = cat.querySelector('.image-section');
-            if (imageSection) {
-                const images = imageSection.getElementsByTagName('img');
-                if (images.length > 20) {
-                    cat.setAttribute('data-images', images.length);
-                    scrollToCategory(parseInt(cat.id.split('-')[1]));
-                }
+        // 카테고리 페이지 표시
+        function showCategory(category) {
+            // 메인 페이지 숨기기
+            document.getElementById('main-page').style.display = 'none';
+            
+            // 모든 카테고리 페이지 숨기기
+            document.querySelectorAll('.category-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // 선택된 카테고리 페이지 표시
+            document.getElementById(category + '-page').classList.add('active');
+            
+            // 네비게이션 메뉴 활성화
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            currentCategory = category;
+            
+            // 갤러리 초기화
+            initializeGallery(category);
+            scrollToTop();
+        }
+
+        // 갤러리 초기화
+        function initializeGallery(category) {
+            pageState[category].current = 1;
+            updateGallery(category);
+        }
+
+        // 갤러리 업데이트
+        function updateGallery(category) {
+            const gallery = document.getElementById(category + '-gallery');
+            const currentPage = pageState[category].current;
+            const totalPages = pageState[category].total;
+            
+            // 갤러리 내용 생성 (16개씩, 4x4 그리드)
+            gallery.innerHTML = '';
+            const startIndex = (currentPage - 1) * 16;
+            
+            for (let i = 1; i <= 16; i++) {
+                const imageIndex = startIndex + i;
+                const imageDiv = document.createElement('div');
+                imageDiv.className = 'image-placeholder';
+                imageDiv.innerHTML = `소장예물 ${imageIndex}<br>(이미지 링크)`;
+                gallery.appendChild(imageDiv);
             }
+            
+            // 페이지 정보 업데이트
+            document.getElementById(category + '-info').textContent = `${currentPage} / ${totalPages}`;
+            
+            // 버튼 상태 업데이트
+            document.getElementById(category + '-prev').disabled = currentPage === 1;
+            document.getElementById(category + '-next').disabled = currentPage === totalPages;
+        }
+
+        // 이전 페이지
+        function prevPage(category) {
+            if (pageState[category].current > 1) {
+                pageState[category].current--;
+                updateGallery(category);
+                scrollToGallery();
+            }
+        }
+
+        // 다음 페이지
+        function nextPage(category) {
+            if (pageState[category].current < pageState[category].total) {
+                pageState[category].current++;
+                updateGallery(category);
+                scrollToGallery();
+            }
+        }
+
+        // 갤러리로 스크롤
+        function scrollToGallery() {
+            document.querySelector('.image-gallery').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // 맨 위로 스크롤
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // 페이지 로드 시 메인 페이지 표시
+        document.addEventListener('DOMContentLoaded', function() {
+            showMainPage();
+        });
+
+        // 뒤로가기 버튼 처리
+        window.addEventListener('popstate', function(event) {
+            showMainPage();
         });
     </script>
 </body>
