@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -6,9 +6,10 @@
     <title>동방예술관 소장예물 소개</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
-        .header { position: sticky; top: 0; background: #333; padding: 10px; text-align: center; }
-        .header a { color: white; text-decoration: none; margin: 0 10px; font-size: 1.2em; }
+        .header { position: sticky; top: 0; background: #333; padding: 10px; text-align: center; display: flex; justify-content: center; align-items: center; }
+        .header a { color: white; text-decoration: none; margin: 0 15px; font-size: 1.2em; }
         .header a:hover { text-decoration: underline; }
+        .header .title { color: white; font-size: 1.5em; margin: 0 15px; }
         .category-menu { display: flex; justify-content: center; background: #ddd; padding: 10px; }
         .category-menu div { margin: 0 10px; padding: 5px 10px; background: #bbb; cursor: pointer; }
         .category-menu div:hover { background: #999; }
@@ -23,6 +24,7 @@
 </head>
 <body>
     <div class="header">
+        <span class="title">동방예술관 소장예물 소개</span>
         <a href="#home">홈</a>
     </div>
     <div class="category-menu" id="home">
